@@ -1,0 +1,56 @@
+@baseUrl = http://localhost:3000
+
+### 1) Healthcheck
+GET {{baseUrl}}/health
+
+### 2) Creer un client
+# Copie la valeur customerId retournee pour les requetes suivantes.
+POST {{baseUrl}}/customers
+Content-Type: application/json
+
+{
+  "fullName": "Client Demo Soutenance"
+}
+
+### 3) Ajouter un achat #1
+POST {{baseUrl}}/purchases
+Content-Type: application/json
+
+{
+  "customerId": "{{customerId}}",
+  "amountCents": 80000,
+  "occurredAt": "2026-04-15T10:00:00.000Z",
+  "latitude": 48.8566,
+  "longitude": 2.3522
+}
+
+### 4) Ajouter un achat #2
+POST {{baseUrl}}/purchases
+Content-Type: application/json
+
+{
+  "customerId": "{{customerId}}",
+  "amountCents": 90000,
+  "occurredAt": "2026-04-15T10:05:00.000Z",
+  "latitude": 48.8566,
+  "longitude": 2.3522
+}
+
+### 5) Ajouter un achat #3
+POST {{baseUrl}}/purchases
+Content-Type: application/json
+
+{
+  "customerId": "{{customerId}}",
+  "amountCents": 50000,
+  "occurredAt": "2026-04-15T10:10:00.000Z",
+  "latitude": 48.8566,
+  "longitude": 2.3522
+}
+
+### 6) Recalcul VIP (job nightly simule)
+POST {{baseUrl}}/jobs/recalculate-vip-status
+
+### 7) Lire le resume client
+GET {{baseUrl}}/customers/{{customerId}}/summary
+

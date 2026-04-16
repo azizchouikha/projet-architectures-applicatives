@@ -1,0 +1,66 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Customer {
+  -id: string
+  -fullName: string
+  -tier: LoyaltyTier
+  -isFrozen: boolean
+  -frozenUntil: Date?
+  +setTier(nextTier)
+  +freezeUntil(date)
+}
+
+class PurchaseTransaction {
+  -id: string
+  -customerId: string
+  -amountCents: number
+  -pointsEarned: number
+  -occurredAt: Date
+  -expiresAt: Date
+  -location: StoreLocation
+}
+
+class RewardRedemption {
+  -id: string
+  -customerId: string
+  -rewardCode: string
+  -pointsSpent: number
+  -redeemedAt: Date
+}
+
+class PointsAmount {
+  -amount: number
+}
+
+class StoreLocation {
+  -latitude: number
+  -longitude: number
+  +distanceKmTo(other)
+}
+
+interface TierPolicy {
+  +calculate(totalSpentInLast12MonthsCents): LoyaltyTier
+}
+
+class DefaultTierPolicy
+class FraudDetectionService
+class PointsLedgerService
+interface CustomerRepository
+interface TransactionRepository
+interface RewardRedemptionRepository
+
+DefaultTierPolicy ..|> TierPolicy
+PurchaseTransaction --> StoreLocation
+PurchaseTransaction --> PointsAmount
+RewardRedemption --> PointsAmount
+CustomerRepository --> Customer
+TransactionRepository --> PurchaseTransaction
+RewardRedemptionRepository --> RewardRedemption
+FraudDetectionService --> PurchaseTransaction
+PointsLedgerService --> PurchaseTransaction
+PointsLedgerService --> RewardRedemption
+
+Customer "1" <-- "*" PurchaseTransaction
+Customer "1" <-- "*" RewardRedemption
+@enduml
