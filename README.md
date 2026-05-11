@@ -3,6 +3,7 @@
 ## Apprenant
 
 - Aziz Chouikha
+- Anis Hamnich
 
 ## Sujet
 
